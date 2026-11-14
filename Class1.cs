@@ -1,50 +1,64 @@
-﻿using System.Collections.Generic;
-using SmartQuiz.Models;
-
-namespace SmartQuiz.Services
+﻿
+namespace SmartQuiz.Models
 {
-  public class QuizManager
+    
+    public class User
     {
-        public QuizManager() 
+        public string UserName { get; set; }
+        public int Age { get; set; }
+
+        public User(string name, int age)
         {
-            QuizQuestions = new List<Questions>();
+            UserName = name;
+            Age = age;
+        }
+    }
+    public abstract class Questions
+    {
+        public string CorrectAnswer {  get; set; }
+        public string Question { get; set; }
+        public int Score { get; set; }
+
+        public Questions(string question, int score, string correctanswer) 
+        {
+            Question = question;
+            Score = score;
+            CorrectAnswer = correctanswer;
         }
 
-        public List<Questions> QuizQuestions { get; set; }
-       
-        public void AddQuestion(Questions q)
+        public abstract void Ask();
+    }
+
+    public class MultipleChoiceQuestion : Questions
+    {
+        public List<string> Options = new List<string>();
+        public MultipleChoiceQuestion(string question, int score, string correctanswer, List<string> options) : base(question, score, correctanswer)
         {
-            QuizQuestions.Add(q);
+            Options = options;
         }
-        public void StartQuiz()
-        {      
-                int totalScore = 0; 
-
-                
-                foreach (Questions q in QuizQuestions)
-                {
-                    q.Ask();
-
-                    Console.Write("Your answer: ");
-                    string userAnswer = Console.ReadLine();
+        public override void Ask()
+        {
+            Console.WriteLine(Question);
 
 
-                if (userAnswer.ToLower() == q.CorrectAnswer.ToLower())
-                {
-                    Console.WriteLine("Correct! ");
-                    totalScore += q.Score;
-                }
-                else
-                {
-                    Console.WriteLine($"Wrong! The correct answer is: {q.CorrectAnswer} ❌");
-                }
+            for (int i = 0; i < Options.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {Options[i]}");
+            }
+        }
+    }
 
-                    Console.WriteLine("-------------------------");
-                }
+    public class TrueFalseQuestion : Questions
+    {
+        public TrueFalseQuestion(string question, int score, string correctanswer) : base(question, score, correctanswer)
+        {
 
-                
-                Console.WriteLine($"Quiz Finished! Your Total Score: {totalScore}");
-            
+        }
+        
+        public override void Ask()
+        {
+            Console.WriteLine($"True Or False: {Question}");
+
         }
     }
 }
