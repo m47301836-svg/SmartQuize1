@@ -1,6 +1,6 @@
-#  SmartQuiz - Interactive Console Application
+# SmartQuiz - Interactive Console Application
 
-## About The Project
+## 📖 About The Project
 SmartQuiz is a console-based interactive quiz application built entirely from scratch using **C# and .NET**. 
 This project was created to practice and master **Object-Oriented Programming (OOP)** principles and clean software architecture.
 
